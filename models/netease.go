@@ -1,11 +1,5 @@
 package models
 
-type Eparams struct {
-	Method string            `json:"method"`
-	url    string            `json:"url"`
-	params map[string]string `json:"params"`
-}
-
 type RespNetease struct {
 	Result struct {
 		Songs []struct {

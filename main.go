@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/zou2699/musicSD/pkg/api"
+	"github.com/zou2699/musicSD/pkg/core"
 )
 
 func main() {
@@ -13,7 +13,7 @@ func main() {
 		if name == "" {
 			continue
 		}
-		musicList := api.NeteaseSearch(name)
+		musicList := core.NeteaseSearch(name)
 		fmt.Println("id -- title --- singer --- size")
 		for id, music := range musicList {
 			fmt.Printf("%v -- ", id)
@@ -29,7 +29,7 @@ func main() {
 			fmt.Printf("输入序号错误\n\n")
 			continue
 		}
-		api.NeteaseDownload(musicList[id])
+		core.NeteaseDownload(musicList[id])
 	}
 	//a := fmt.Sprintf("%#x",rune(1))
 	//fmt.Println(strings.Repeat(a,2))

@@ -14,6 +14,7 @@ gen### Example user template template
 *.iml
 out
 *.mp3
+*.lrc
 gen### Go template
 # Binaries for programs and plugins
 *.exe

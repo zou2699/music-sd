@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"time"
 )
 
 func Search(keyword string) (musicList []models.Music) {
@@ -59,16 +60,16 @@ func Search(keyword string) (musicList []models.Music) {
 		if song.Size320 != 0 {
 			size = song.Size320
 		}
-		mSize, _ := strconv.ParseFloat(fmt.Sprintf("%.2f", float64(size)/1048576), 64)
+		mSize := fmt.Sprintf("%.2f", float64(size)/1048576)
 
 		music.Title = song.Songname
 		music.ID = song.Songid
 		music.MID = song.Songmid
-		music.Duration = ""
+		music.Duration = time.Unix(int64(song.Interval), 0).Format("04:05")
 		music.Singer = strings.Join(singers, ",")
 		music.Album = song.Albumname
 		music.Size = mSize
-		music.Source = "qq"
+		music.Source = "QQ"
 		musicList = append(musicList, music)
 	}
 	return musicList
@@ -112,9 +113,10 @@ func Download(music models.Music) {
 	prefixs := []string{"M800", "M500", "C400"}
 	for _, prefix := range prefixs {
 		url := fmt.Sprintf("http://dl.stream.qqmusic.qq.com/%v%v.mp3?vkey=%v&guid=%v&fromtag=1", prefix, music.MID, vkey, guid)
-		fmt.Println(url)
+		//fmt.Println(url)
 		size := common.GetContentLen(url)
-		mSize, _ := strconv.ParseFloat(fmt.Sprintf("%.2f", float64(size)/1048576), 64)
+		//	mSize, _ := strconv.ParseFloat(fmt.Sprintf("%.2f", float64(size)/1048576), 64)
+		mSize := fmt.Sprintf("%.2f", float64(size)/1048576)
 		if size > 0 {
 			music.Url = url
 			if prefix == "M800" {

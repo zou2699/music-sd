@@ -1,9 +1,15 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"github.com/zou2699/musicSD/pkg/netease"
 	"github.com/zou2699/musicSD/pkg/qq"
+	"log"
+	"os"
+	"strconv"
+	"strings"
+	"sync"
 )
 
 func main() {
@@ -11,37 +17,49 @@ func main() {
 		var name string
 		fmt.Println("请输入要搜索的歌曲，名称和歌手一起输入可以提高匹配(如 Beyond 海阔天空): ")
 		fmt.Scanln(&name)
+		//name = "海阔天空"
 		if name == "" {
 			continue
 		}
 		fmt.Println("开始搜索...")
 		musicList := netease.Search(name)
 		musicList = append(musicList, qq.Search(name)...)
-		fmt.Println("id -- title --- singer --- size")
 		for id, music := range musicList {
-			fmt.Printf("%v -- ", id)
-			fmt.Printf("%v --- ", music.Source)
-			fmt.Printf("%s --- ", music.Title)
-			fmt.Printf("%s --- ", music.Singer)
-			fmt.Printf("%vMB\n", music.Size)
+			fmt.Printf("[%2d] %7s | %s %5sMB - %s - %s - %s\n", id, music.Source, music.Duration, music.Size, music.Title, music.Singer, music.Album)
 		}
 
-		var id int
 		fmt.Println("请输入要下载的歌曲序号, 多个序号用空格隔开: ")
-		_, err := fmt.Scanln(&id)
+		inputReader := bufio.NewReader(os.Stdin)
+		input, err := inputReader.ReadString('\n')
 		if err != nil {
+			fmt.Println(err)
 			fmt.Printf("输入序号错误\n\n")
 			continue
 		}
+		fmt.Println("src ", input)
+		ids := strings.Fields(input)
 
-		music := musicList[id]
-		if music.Source == "qq" {
-			qq.Download(music)
-		} else if music.Source == "netease" {
-			netease.Download(music)
+		//_, err = fmt.Scanln(&ids)
+		//if err != nil {
+		//	fmt.Println(err)
+		//	fmt.Printf("输入序号错误\n\n")
+		//	continue
+		//}
+		var wg sync.WaitGroup
+		for _, id := range ids {
+			wg.Add(1)
+			i, err := strconv.Atoi(id)
+			if err != nil {
+				log.Panic(err)
+			}
+
+			music := musicList[i]
+			if music.Source == "QQ" {
+				go qq.Download(music)
+			} else if music.Source == "NETEASE" {
+				go netease.Download(music)
+			}
 		}
-
+		wg.Wait()
 	}
-	//a := fmt.Sprintf("%#x",rune(1))
-	//fmt.Println(strings.Repeat(a,2))
 }

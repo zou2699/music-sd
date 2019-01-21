@@ -85,17 +85,17 @@ type RespNetease struct {
 }
 
 type Music struct {
-	Album    string  `json:"album"`
-	Singer   string  `json:"singer"`
-	Source   string  `json:"source"`
-	Duration string  `json:"duration"`
-	Title    string  `json:"title"`
-	ID       int     `json:"id"`
-	Size     float64 `json:"size"`
-	MID      string  `json:"mid"`
-	Url      string  `json:"url"`
-	Rate     string  `json:"rate"`
-	Name     string  `json:"name"`
+	Album    string `json:"album"`
+	Singer   string `json:"singer"`
+	Source   string `json:"source"`
+	Duration string `json:"duration"`
+	Title    string `json:"title"`
+	ID       int    `json:"id"`
+	Size     string `json:"size"`
+	MID      string `json:"mid"`
+	Url      string `json:"url"`
+	Rate     string `json:"rate"`
+	Name     string `json:"name"`
 }
 
 type MusicDownloadNetease struct {

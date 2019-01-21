@@ -11,6 +11,7 @@ import (
 	"net/url"
 	"strconv"
 	"strings"
+	"time"
 )
 
 // 搜索netease音乐
@@ -92,15 +93,15 @@ func Search(keyword string) (musicList []models.Music) {
 			size = song.L.Size
 		}
 		// 转化位MB
-		mSize, _ := strconv.ParseFloat(fmt.Sprintf("%.2f", float64(size)/1048576), 64)
-
+		//mSize, _ := strconv.ParseFloat(fmt.Sprintf("%.2f", float64(size)/1048576), 64)
+		mSize := fmt.Sprintf("%.2f", float64(size)/1048576)
 		//fmt.Printf("%.2f", float64(size)/1048576)
 		music.ID = song.ID
 		music.Title = song.Name
 		music.Album = song.Al.Name
 		music.Size = mSize
-		music.Duration = ""
-		music.Source = "netease"
+		music.Duration = time.Unix(int64(song.Dt)/1000, 0).Format("04:05")
+		music.Source = "NETEASE"
 		music.Singer = strings.Join(singers, ",")
 
 		musicList = append(musicList, music)

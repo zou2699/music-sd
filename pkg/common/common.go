@@ -10,6 +10,8 @@ import (
 	"math/rand"
 	"net/http"
 	"os"
+	"regexp"
+	"runtime"
 	"strconv"
 	"time"
 )
@@ -43,7 +45,18 @@ func EncryptForm(requestBytes []byte) (encryptedString string) {
 
 // 下载
 func MusicDownload(music models.Music) {
-	fmt.Println("开始下载", music.Name)
+
+	filename := music.Name
+	//fmt.Println(music.Name)
+	if runtime.GOOS == "windows" {
+		compile, err := regexp.Compile("[\\/:*?\"<>|]")
+		if err != nil {
+			log.Panic(err)
+		}
+		filename = compile.ReplaceAllString(filename, ",")
+	}
+
+	//fmt.Println("开始下载", filename)
 	t1 := time.Now()
 
 	response, err := http.Get(music.Url)
@@ -51,7 +64,7 @@ func MusicDownload(music models.Music) {
 		log.Panic(err)
 	}
 
-	file, err := os.Create("./" + music.Name)
+	file, err := os.Create(filename)
 	defer file.Close()
 	if err != nil {
 		log.Panic(err)
@@ -62,7 +75,7 @@ func MusicDownload(music models.Music) {
 	}
 
 	elapsed := time.Since(t1)
-	fmt.Println("下载完成, 耗时", elapsed)
+	fmt.Printf("%s 下载完成, 耗时: %v\n", filename, elapsed)
 }
 
 // Head the url

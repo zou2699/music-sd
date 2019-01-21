@@ -75,7 +75,7 @@ func MusicDownload(music models.Music) {
 	}
 
 	elapsed := time.Since(t1)
-	fmt.Printf("%s 下载完成, 耗时: %v\n", filename, elapsed)
+	fmt.Printf("%s 下载完成, 音质%skbps, 耗时: %v\n", filename, music.Rate, elapsed)
 }
 
 // Head the url

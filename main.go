@@ -21,6 +21,9 @@ func main() {
 		if name == "" {
 			continue
 		}
+		if name == "exit" {
+			os.Exit(0)
+		}
 		fmt.Println("开始搜索...")
 		musicList := netease.Search(name)
 		musicList = append(musicList, qq.Search(name)...)
@@ -36,7 +39,7 @@ func main() {
 			fmt.Printf("输入序号错误\n\n")
 			continue
 		}
-		fmt.Println("src ", input)
+		//fmt.Println("src ", input)
 		ids := strings.Fields(input)
 
 		//_, err = fmt.Scanln(&ids)
@@ -47,19 +50,24 @@ func main() {
 		//}
 		var wg sync.WaitGroup
 		for _, id := range ids {
-			wg.Add(1)
 			i, err := strconv.Atoi(id)
 			if err != nil {
 				log.Panic(err)
 			}
+			if i > len(musicList)-1 {
+				fmt.Printf("输入序号 %d 过大,应小于 %d \n", i, len(musicList))
+				continue
+			}
 
 			music := musicList[i]
 			if music.Source == "QQ" {
+				wg.Add(1)
 				go func() {
 					qq.Download(music)
 					wg.Done()
 				}()
 			} else if music.Source == "NETEASE" {
+				wg.Add(1)
 				go func() {
 					netease.Download(music)
 					wg.Done()
@@ -67,7 +75,6 @@ func main() {
 			}
 		}
 		wg.Wait()
-		fmt.Println("###################")
-		fmt.Println()
+		fmt.Printf("#########Done##########\n\n")
 	}
 }

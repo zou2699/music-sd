@@ -15,7 +15,7 @@ import (
 func main() {
 	for {
 		var name string
-		fmt.Println("请输入要搜索的歌曲，名称和歌手一起输入可以提高匹配(如 Beyond 海阔天空): ")
+		fmt.Println("请输入要搜索的歌曲，名称和歌手一起输入可以提高匹配(如 海阔天空 Beyond): ")
 		fmt.Scanln(&name)
 		//name = "海阔天空"
 		if name == "" {
@@ -55,11 +55,19 @@ func main() {
 
 			music := musicList[i]
 			if music.Source == "QQ" {
-				go qq.Download(music)
+				go func() {
+					qq.Download(music)
+					wg.Done()
+				}()
 			} else if music.Source == "NETEASE" {
-				go netease.Download(music)
+				go func() {
+					netease.Download(music)
+					wg.Done()
+				}()
 			}
 		}
 		wg.Wait()
+		fmt.Println("###################")
+		fmt.Println()
 	}
 }

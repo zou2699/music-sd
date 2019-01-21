@@ -84,7 +84,7 @@ type RespNetease struct {
 	Code int `json:"code"`
 }
 
-type MusicNetease struct {
+type Music struct {
 	Album    string  `json:"album"`
 	Singer   string  `json:"singer"`
 	Source   string  `json:"source"`
@@ -92,6 +92,10 @@ type MusicNetease struct {
 	Title    string  `json:"title"`
 	ID       int     `json:"id"`
 	Size     float64 `json:"size"`
+	MID      string  `json:"mid"`
+	Url      string  `json:"url"`
+	Rate     string  `json:"rate"`
+	Name     string  `json:"name"`
 }
 
 type MusicDownloadNetease struct {

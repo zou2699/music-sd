@@ -1,4 +1,4 @@
-package core
+package netease
 
 import (
 	"encoding/hex"
@@ -17,7 +17,7 @@ import (
 	"time"
 )
 
-func NeteaseSearch(keyword string) (musicList []models.MusicNetease) {
+func Search(keyword string) (musicList []models.MusicNetease) {
 	// 初始化requestJson
 	requestJSON := map[string]interface{}{
 		"method": "POST",
@@ -86,7 +86,7 @@ func NeteaseSearch(keyword string) (musicList []models.MusicNetease) {
 
 	//fmt.Println(req.Header)
 
-	fmt.Println("开始搜索")
+	fmt.Println("开始搜索...")
 	resp, err := client.Do(req)
 	defer resp.Body.Close()
 	if err != nil {
@@ -146,7 +146,7 @@ func NeteaseSearch(keyword string) (musicList []models.MusicNetease) {
 		music.Size = msize
 		music.Duration = ""
 		music.Source = "netease"
-		music.Singer = strings.Join(singers, "/")
+		music.Singer = strings.Join(singers, ",")
 
 		musicList = append(musicList, music)
 		//	fmt.Printf("%+v\n", music)
@@ -154,7 +154,7 @@ func NeteaseSearch(keyword string) (musicList []models.MusicNetease) {
 	return musicList
 }
 
-func NeteaseDownload(music models.MusicNetease) {
+func Download(music models.MusicNetease) {
 	// 初始化requestJson
 	musicId := "[" + strconv.Itoa(music.ID) + "]"
 	//musicId = "[347230]"

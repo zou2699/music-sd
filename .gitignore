@@ -30,3 +30,4 @@ gen### Go template
 *.out
 
 /test/
+*.zip

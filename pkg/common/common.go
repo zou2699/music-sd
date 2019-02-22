@@ -3,8 +3,8 @@ package common
 import (
 	"encoding/hex"
 	"fmt"
-	"github.com/zou2699/musicSD/models"
-	"github.com/zou2699/musicSD/utils"
+	"github.com/zou2699/music-sd/models"
+	"github.com/zou2699/music-sd/utils"
 	"io"
 	"log"
 	"math/rand"

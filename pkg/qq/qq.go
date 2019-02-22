@@ -3,8 +3,8 @@ package qq
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/zou2699/musicSD/models"
-	"github.com/zou2699/musicSD/pkg/common"
+	"github.com/zou2699/music-sd/models"
+	"github.com/zou2699/music-sd/pkg/common"
 	"io/ioutil"
 	"log"
 	"net/http"

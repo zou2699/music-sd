@@ -3,8 +3,8 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"github.com/zou2699/musicSD/pkg/netease"
-	"github.com/zou2699/musicSD/pkg/qq"
+	"github.com/zou2699/music-sd/pkg/netease"
+	"github.com/zou2699/music-sd/pkg/qq"
 	"log"
 	"os"
 	"strconv"

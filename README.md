@@ -1,4 +1,4 @@
-# musicSD
+# music-sd
 netease and qq music search and download  
 当前支持网易云音乐和QQ音乐的搜索和下载
 
